@@ -12,8 +12,6 @@ class newrelic::repo {
 
               apt::key { "548C16BF":;
               }
-
-            }
         }
         default: {
             file { "/etc/pki/rpm-gpg/RPM-GPG-KEY-NewRelic":
