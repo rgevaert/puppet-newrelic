@@ -1,5 +1,3 @@
-class newrelic($license  = $::newrelic_license) {
+class newrelic() {
     include newrelic::repo
-    include newrelic::package
-    include newrelic::server
 }

@@ -1,7 +1,22 @@
-class newrelic::php5 {
+class newrelic::php5($license)
+{
+    include newrelic::repo
 
-  package {
-    'newrelic-php5':
-      ensure => latest;
-  }
+    $newrelic_license = $license
+
+    package { "newrelic-php5":
+        ensure  => latest,
+        notify  => Service['newrelic-daemon'],
+        require => Class["newrelic::repo"];
+    }
+  
+    if $newrelic_license == undef{ fail('$newrelic_license not defined') }
+
+    service { "newrelic-daemon":
+        enable  => true,
+        ensure  => running,
+        hasstatus => true,
+        hasrestart => true,
+        require => Package['newrelic-php5'];
+    }
 }

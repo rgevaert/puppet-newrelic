@@ -1,7 +1,15 @@
-class newrelic::server {
-    include newrelic::package
-    $newrelic_license = $newrelic::license
+class newrelic::sysmond ($license)
+{
+    include newrelic::repo
 
+    $newrelic_license = $license
+
+    package { "newrelic-sysmond":
+        ensure  => latest,
+        notify  => Service['newrelic-sysmond'],
+        require => Class["newrelic::repo"];
+    }
+  
     if $newrelic_license == undef{ fail('$newrelic_license not defined') }
 
     Exec['newrelic-set-license', 'newrelic-set-ssl'] {
@@ -25,7 +33,6 @@ class newrelic::server {
         ensure  => running,
         hasstatus => true,
         hasrestart => true,
-        require => Class["newrelic::package"];
+        require => Package['newrelic-sysmond'];
     }
-
 }
