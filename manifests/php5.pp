@@ -1,4 +1,4 @@
-class newrelic::php5($license)
+class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb' )
 {
     include newrelic::repo
 
@@ -12,11 +12,29 @@ class newrelic::php5($license)
   
     if $newrelic_license == undef{ fail('$newrelic_license not defined') }
 
-    service { "newrelic-daemon":
+    service {
+      'newrelic-daemon':
         enable  => true,
         ensure  => running,
         hasstatus => true,
         hasrestart => true,
         require => Package['newrelic-php5'];
+    }
+
+    file {
+      '/etc/php5/conf.d/newrelic.ini':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        source  => 'puppet:///modules/newrelic/php.ini',
+        notify  => Class['apache'];
+      '/etc/newrelic/newrelic.cfg':
+        ensure  => present, 
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        notify  => Service['newrelic-daemon'];
+        content => template($config_content);
     }
 }
