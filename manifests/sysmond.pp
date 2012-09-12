@@ -19,12 +19,14 @@ class newrelic::sysmond ($license)
     exec { "newrelic-set-license":
         unless  => "egrep -q '^license_key=${newrelic_license}$' /etc/newrelic/nrsysmond.cfg",
         command => "nrsysmond-config --set license_key=${newrelic_license}",
+        require => Package['newrelic-sysmond'],
         notify => Service['newrelic-sysmond'];
     }
 
     exec { "newrelic-set-ssl":
         unless  => "egrep -q ^ssl=true$ /etc/newrelic/nrsysmond.cfg",
         command => "nrsysmond-config --set ssl=true",
+        require => Package['newrelic-sysmond'],
         notify => Service['newrelic-sysmond'];
     }
 
