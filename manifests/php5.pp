@@ -1,4 +1,4 @@
-class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb' )
+class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb', $phpini_content = 'newrelic/php.ini.erb' )
 {
     include newrelic::repo
 
@@ -28,7 +28,7 @@ class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb' )
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        source  => 'puppet:///modules/newrelic/php.ini',
+        content => template($phpini_content),
         require => Package['newrelic-php5'],
         notify  => Class['apache'];
       '/etc/newrelic/newrelic.cfg':
