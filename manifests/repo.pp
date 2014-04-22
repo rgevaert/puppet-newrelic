@@ -1,6 +1,6 @@
 class newrelic::repo {
 
-    case $operatingsystem {
+    case $::operatingsystem {
         /Debian|Ubuntu/: {
               include apt
               apt::sources_list { "newrelic":
