@@ -1,4 +1,4 @@
-class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb', $phpini_content = 'newrelic/php.ini.erb' )
+class newrelic::php5($license, $appname = "PHP Application", $config_content = 'newrelic/newrelic.cfg.erb', $phpini_content = 'newrelic/php.ini.erb' )
 {
   include newrelic::repo
 
@@ -33,16 +33,16 @@ class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb', $p
     }
 
     file {
-      "${config_root}/apache2/conf.d/${name}.ini":
+      "${config_root}/apache2/conf.d/newrelic.ini":
         ensure  => $link_ensure,
-        target  => "../../mods-available/${name}.ini",
+        target  => "../../mods-available/newrelic.ini",
         notify  => Service["httpd"];
     }
 
     file {
-      "${config_root}/cli/conf.d/${name}.ini":
+      "${config_root}/cli/conf.d/newrelic.ini":
         ensure  => $link_ensure,
-        target  => "../../mods-available/${name}.ini",
+        target  => "../../mods-available/newrelic.ini",
         notify  => Service["httpd"];
     }
 
@@ -51,7 +51,7 @@ class newrelic::php5($license, $config_content = 'newrelic/newrelic.cfg.erb', $p
   }
 
   file {
-    "${config_root_ini}/${newrelic}.ini":
+    "${config_root_ini}/newrelic.ini":
       owner   => 'root',
       group   => 'root',
       mode    => '0644',
