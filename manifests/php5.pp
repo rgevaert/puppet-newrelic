@@ -15,11 +15,12 @@ class newrelic::php5($license, $appname = "PHP Application", $config_content = '
 
   service {
     'newrelic-daemon':
-      enable  => true,
-      ensure  => running,
-      hasstatus => true,
+      enable     => true,
+      ensure     => running,
+      provider   => 'init',
+      hasstatus  => true,
       hasrestart => true,
-      require => Package['newrelic-php5'];
+      require    => Package['newrelic-php5'];
   }
 
   $config_root = '/etc/php5'
