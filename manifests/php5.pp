@@ -33,31 +33,40 @@ class newrelic::php5($license, $appname = "PHP Application", $config_content = '
     }
 
     file {
-      "${config_root}/apache2/conf.d/newrelic.ini":
+      "${config_root}/apache2/conf.d/20-newrelic.ini":
         ensure  => $link_ensure,
         target  => "../../mods-available/newrelic.ini",
         notify  => Service["httpd"];
     }
 
     file {
-      "${config_root}/cli/conf.d/newrelic.ini":
+      "${config_root}/cli/conf.d/20-newrelic.ini":
         ensure  => $link_ensure,
         target  => "../../mods-available/newrelic.ini",
         notify  => Service["httpd"];
     }
 
+    file {
+      ["${config_root}/apache2/conf.d/newrelic.ini", "${config_root}/cli/conf.d/newrelic.ini"]:
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => template($phpini_content),
+        notify  => Service["httpd"],
+        require => Package['newrelic-php5'];
+    }
+
   } else {
     $config_root_ini = "${config_root}/conf.d"
-  }
-
-  file {
-    "${config_root_ini}/newrelic.ini":
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0644',
-      content => template($phpini_content),
-      notify  => Service["httpd"],
-      require => Package['newrelic-php5'];
+    file {
+      "${config_root_ini}/newrelic.ini":
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => template($phpini_content),
+        notify  => Service["httpd"],
+        require => Package['newrelic-php5'];
+    }
   }
 
   file {
