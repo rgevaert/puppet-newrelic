@@ -73,8 +73,8 @@ class newrelic::php5($license, $appname = "PHP Application", $config_content = '
   file {
     '/etc/newrelic/newrelic.cfg':
       ensure  => present, 
-      owner   => 'root',
-      group   => 'root',
+      owner   => 'newrelic',
+      group   => 'newrelic',
       mode    => '0640',
       require => Package['newrelic-php5'],
       notify  => Service['newrelic-daemon'],

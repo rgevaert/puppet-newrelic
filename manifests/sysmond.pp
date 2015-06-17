@@ -14,8 +14,8 @@ class newrelic::sysmond ($license, $labels='')
   file{
     '/etc/newrelic/nrsysmond.cfg':
       ensure  => present, 
-      owner   => 'root',
-      group   => 'root',
+      owner   => 'newrelic',
+      group   => 'newrelic',
       mode    => '0640',
       require => Package['newrelic-sysmond'],
       notify  => Service['newrelic-daemon'],
