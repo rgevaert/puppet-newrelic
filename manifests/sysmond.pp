@@ -18,7 +18,7 @@ class newrelic::sysmond ($license, $labels='')
       group   => 'newrelic',
       mode    => '0640',
       require => Package['newrelic-sysmond'],
-      notify  => Service['newrelic-daemon'],
+      notify  => Service['newrelic-sysmond'],
       content => template('newrelic/nrsysmond.cfg.erb');
   }
 
