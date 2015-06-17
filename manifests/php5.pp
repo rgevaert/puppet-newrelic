@@ -63,7 +63,7 @@ class newrelic::php5($license, $appname = "PHP Application", $config_content = '
       "${config_root_ini}/newrelic.ini":
         owner   => 'root',
         group   => 'root',
-        mode    => '0644',
+        mode    => '0640',
         content => template($phpini_content),
         notify  => Service["httpd"],
         require => Package['newrelic-php5'];
@@ -75,7 +75,7 @@ class newrelic::php5($license, $appname = "PHP Application", $config_content = '
       ensure  => present, 
       owner   => 'root',
       group   => 'root',
-      mode    => '0644',
+      mode    => '0640',
       require => Package['newrelic-php5'],
       notify  => Service['newrelic-daemon'],
       content => template($config_content);
