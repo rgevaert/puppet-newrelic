@@ -1,0 +1,9 @@
+license_key=<%= @license %>
+loglevel=info
+logfile=/var/log/newrelic/nrsysmond.log
+ssl=true
+<%if @labels.is_a? Array -%>
+labels=<%= @labels.join(";") %>
+<% elsif @labels != '' -%>
+labels=<%= @labels %>
+<% end -%>
